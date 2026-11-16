@@ -25,6 +25,12 @@ class AppLocalizations {
   String get system => isArabic ? 'النظام' : 'System';
   String get light => isArabic ? 'فاتح' : 'Light';
   String get dark => isArabic ? 'داكن' : 'Dark';
+  String get notFoundTitle =>
+      isArabic ? 'هذه الصفحة غير متاحة' : 'This page is unavailable';
+  String get notFoundBody => isArabic
+      ? 'قد يكون الرابط غير صحيح أو أن الصفحة نُقلت.'
+      : 'The link may be incorrect or the page may have moved.';
+  String get backHome => isArabic ? 'العودة للرئيسية' : 'Back to home';
   String get english => 'English';
   String get arabic => 'العربية';
 

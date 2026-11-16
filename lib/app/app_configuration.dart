@@ -50,33 +50,12 @@ class AppIdentity {
   }
 
   static bool isValidAndroidApplicationId(String value) =>
-      RegExp(
-    r'^[A-Za-z][A-Za-z0-9_]*(\.[A-Za-z][A-Za-z0-9_]*)+$',
-  ).hasMatch(value);
+      RegExp(r'^[A-Za-z][A-Za-z0-9_]*(\.[A-Za-z][A-Za-z0-9_]*)+$')
+          .hasMatch(value);
 
   static bool isValidIosBundleIdentifier(String value) =>
       value.length <= 255 &&
-      RegExp(r'^[A-Za-z0-9][A-Za-z0-9-]*(\.[A-Za-z0-9][A-Za-z0-9-]*)+
-}
-
-class AppConfiguration {
-  AppConfiguration({
-    required this.identity,
-    required this.environment,
-    required this.lightTheme,
-    required this.darkTheme,
-    this.showDebugBanner = false,
-  }) {
-    identity.validate();
-  }
-
-  final AppIdentity identity;
-  final AppEnvironment environment;
-  final ThemeData lightTheme;
-  final ThemeData darkTheme;
-  final bool showDebugBanner;
-}
-)
+      RegExp(r'^[A-Za-z0-9][A-Za-z0-9-]*(\.[A-Za-z0-9][A-Za-z0-9-]*)+$')
           .hasMatch(value);
 }
 

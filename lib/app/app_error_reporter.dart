@@ -16,18 +16,16 @@ class AppErrorReporter {
       Object error,
       StackTrace stackTrace,
     ) {
-          report(
-            FlutterErrorDetails(
-              exception: error,
-              stack: stackTrace,
-              library: 'app',
-              context: ErrorDescription(
-                'An uncaught asynchronous error occurred.',
-              ),
-            ),
-          );
-          return true;
-        };
+      report(
+        FlutterErrorDetails(
+          exception: error,
+          stack: stackTrace,
+          library: 'app',
+          context: ErrorDescription('An uncaught asynchronous error occurred.'),
+        ),
+      );
+      return true;
+    };
   }
 
   void report(FlutterErrorDetails details) => _handler(details);

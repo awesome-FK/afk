@@ -2,6 +2,7 @@ import 'package:afk/app/app.dart';
 import 'package:afk/app/app_preferences.dart';
 import 'package:afk/design_system/components/afk_button.dart';
 import 'package:afk/design_system/theme/afk_theme.dart';
+import 'package:afk/design_system/theme/afk_theme_colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
@@ -77,6 +78,28 @@ void main() {
 
     await tester.tap(find.text('Continue'));
     expect(pressed.single, isTrue);
+  });
+
+  testWidgets('primary button uses inverse semantic colors', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AfkTheme.light(),
+        home: Scaffold(
+          body: Center(
+            child: AfkButton(label: 'Primary action', onPressed: () {}),
+          ),
+        ),
+      ),
+    );
+
+    final Finder label = find.text('Primary action');
+    final AfkThemeColors colors =
+        AfkThemeColors.of(tester.element(label));
+    final Text text = tester.widget<Text>(label);
+
+    expect(text.style?.color, colors.surface);
   });
 
   testWidgets('disabled AFK button does not invoke its callback', (

@@ -31,10 +31,16 @@ Material UI is used as a framework dependency for platform integration, semantic
 
 ## Quick start
 
-Generate the native runners with the application's agreed reverse-domain identifier:
+Generate the native runners into a temporary project so AFK's existing `pubspec.yaml` is preserved. Replace the organization identifier before running:
 
 ```sh
-flutter create --empty --platforms=android,ios --org <your.reverse.domain> .
+ORG="com.example"
+TMP_DIR="$(mktemp -d)"
+flutter create --empty --platforms=android,ios --org "$ORG" --project-name afk "$TMP_DIR/afk"
+cp -R "$TMP_DIR/afk/android" "$TMP_DIR/afk/ios" .
+cp "$TMP_DIR/afk/.metadata" .
+rm -rf "$TMP_DIR"
+
 flutter pub get
 dart format .
 flutter analyze

@@ -20,7 +20,7 @@ void main() {
           appPreferencesRepositoryProvider.overrideWithValue(repository),
           appConfigurationProvider.overrideWithValue(testAppConfiguration()),
         ],
-        child: const AfkApp(),
+        child: const AppRoot(),
       ),
     );
     await tester.pumpAndSettle();

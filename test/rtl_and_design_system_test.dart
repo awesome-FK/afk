@@ -51,13 +51,14 @@ void main() {
       ProviderScope(
         overrides: [
           appPreferencesRepositoryProvider.overrideWithValue(repository),
+          appConfigurationProvider.overrideWithValue(testAppConfiguration()),
         ],
-        child: const AfkApp(),
+        child: const AppRoot(),
       ),
     );
     await tester.pumpAndSettle();
 
-    final Finder welcome = find.text('مرحباً بك في AFK');
+    final Finder welcome = find.text('مرحباً بك في Test App');
     expect(welcome, findsOneWidget);
     expect(Theme.of(tester.element(welcome)).brightness, Brightness.dark);
   });

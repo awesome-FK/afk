@@ -46,4 +46,7 @@ Do not create empty layers. A simple feature may start with presentation only.
 
 ## Error handling
 
-Expected failures are modeled as values/states at feature boundaries. Unexpected failures retain stack traces and are reported through an explicit logging adapter. UI renders safe, localized recovery states; it never displays raw exception text.
+- `AppErrorReporter` is installed once during bootstrap and receives uncaught Flutter framework and platform asynchronous errors.
+- Framework errors retain their original `FlutterErrorDetails`; platform errors are wrapped with their exception and stack trace intact.
+- The default sink uses Flutter's standard error presentation. Replace it through the reporter's handler when an app-specific diagnostics service is introduced; do not add logging dependencies to feature code.
+- Expected failures are modeled as values/states at feature boundaries. UI renders safe, localized recovery states; it never displays raw exception text.

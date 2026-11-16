@@ -4,6 +4,7 @@ import 'package:afk/localization/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'support/memory_app_preferences_repository.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

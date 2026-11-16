@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract final class AfkTypography {
-  static const String? fontFamily = null;
-
-  static TextTheme create({
-    required Color primary,
-    required Color secondary,
-  }) {
+  static TextTheme create({required Color primary, required Color secondary}) {
     final TextTheme base = Typography.material2021().black;
     return base.copyWith(
       displayLarge: base.displayLarge?.copyWith(

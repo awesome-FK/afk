@@ -6,8 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('switching to Arabic applies RTL directionality',
-      (WidgetTester tester) async {
+  testWidgets('switching to Arabic applies RTL directionality', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const ProviderScope(child: AfkApp()));
     await tester.pumpAndSettle();
 
@@ -16,14 +17,10 @@ void main() {
 
     final Finder welcome = find.text('مرحباً بك في AFK');
     expect(welcome, findsOneWidget);
-    expect(
-      Directionality.of(tester.element(welcome)),
-      TextDirection.rtl,
-    );
+    expect(Directionality.of(tester.element(welcome)), TextDirection.rtl);
   });
 
-  testWidgets('AFK button invokes its callback',
-      (WidgetTester tester) async {
+  testWidgets('AFK button invokes its callback', (WidgetTester tester) async {
     bool pressed = false;
 
     await tester.pumpWidget(
@@ -44,20 +41,16 @@ void main() {
     expect(pressed, isTrue);
   });
 
-  testWidgets('disabled AFK button does not invoke its callback',
-      (WidgetTester tester) async {
+  testWidgets('disabled AFK button does not invoke its callback', (
+    WidgetTester tester,
+  ) async {
     bool pressed = false;
 
     await tester.pumpWidget(
       MaterialApp(
         theme: AfkTheme.light(),
         home: Scaffold(
-          body: Center(
-            child: AfkButton(
-              label: 'Unavailable',
-              onPressed: null,
-            ),
-          ),
+          body: Center(child: AfkButton(label: 'Unavailable', onPressed: null)),
         ),
       ),
     );

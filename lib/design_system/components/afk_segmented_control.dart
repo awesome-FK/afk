@@ -83,10 +83,8 @@ class AfkSegmentedControl<T> extends StatelessWidget {
                 option.label,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: selected
-                          ? colors.surface
-                          : colors.secondaryText,
-                    ),
+                  color: selected ? colors.surface : colors.secondaryText,
+                ),
               ),
             ),
           ),

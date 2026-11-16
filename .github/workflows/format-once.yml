@@ -1,0 +1,34 @@
+name: One-time Dart formatting
+
+on:
+  push:
+    branches:
+      - format/phase3
+
+permissions:
+  contents: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.50.0'
+      - name: Format all Dart sources
+        run: dart format .
+      - name: Remove temporary formatter
+        run: rm -f .github/workflows/format-once.yml tool/format-trigger.txt
+      - name: Commit formatting
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "style: format Dart sources"
+            git push
+          fi

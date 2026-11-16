@@ -78,12 +78,10 @@ class SharedPreferencesAppPreferencesRepository
 
 final Provider<AppPreferencesRepository> appPreferencesRepositoryProvider =
     Provider<AppPreferencesRepository>((ref) {
-      ref.watch(appConfigurationProvider);
+      final AppIdentity identity = ref.watch(appConfigurationProvider).identity;
       return SharedPreferencesAppPreferencesRepository(
         SharedPreferencesAsync(),
-        storageKey: AppPreferencesStorageKey.forIdentity(
-          ref.watch(appConfigurationProvider).identity,
-        ),
+        storageKey: AppPreferencesStorageKey.forIdentity(identity),
       );
     });
 

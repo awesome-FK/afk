@@ -1,5 +1,5 @@
-import 'example_app_theme.dart';
 import 'app_configuration.dart';
+import 'example_app_theme.dart';
 
 final AppConfiguration exampleAppConfiguration = AppConfiguration(
   identity: const AppIdentity(

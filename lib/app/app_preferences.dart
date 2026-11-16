@@ -59,10 +59,10 @@ class SharedPreferencesAppPreferencesRepository
   }
 
   ThemeMode _themeModeFrom(Object? value) => switch (value) {
-        'light' => ThemeMode.light,
-        'dark' => ThemeMode.dark,
-        _ => ThemeMode.system,
-      };
+    'light' => ThemeMode.light,
+    'dark' => ThemeMode.dark,
+    _ => ThemeMode.system,
+  };
 
   Locale _localeFrom(Object? value) =>
       value == 'ar' ? const Locale('ar') : const Locale('en');
@@ -70,14 +70,15 @@ class SharedPreferencesAppPreferencesRepository
 
 final Provider<AppPreferencesRepository> appPreferencesRepositoryProvider =
     Provider<AppPreferencesRepository>(
-  (ref) => SharedPreferencesAppPreferencesRepository(SharedPreferencesAsync()),
-);
+      (ref) =>
+          SharedPreferencesAppPreferencesRepository(SharedPreferencesAsync()),
+    );
 
 final AsyncNotifierProvider<AppPreferencesController, AppPreferences>
-    appPreferencesProvider =
+appPreferencesProvider =
     AsyncNotifierProvider<AppPreferencesController, AppPreferences>(
-  AppPreferencesController.new,
-);
+      AppPreferencesController.new,
+    );
 
 class AppPreferencesController extends AsyncNotifier<AppPreferences> {
   AppPreferences _current = const AppPreferences();
@@ -108,8 +109,9 @@ class AppPreferencesController extends AsyncNotifier<AppPreferences> {
     _current = next;
     state = AsyncData<AppPreferences>(next);
 
-    final AppPreferencesRepository repository =
-        ref.read(appPreferencesRepositoryProvider);
+    final AppPreferencesRepository repository = ref.read(
+      appPreferencesRepositoryProvider,
+    );
     _writeQueue = _writeQueue.then<void>((_) async {
       try {
         await repository.save(next);

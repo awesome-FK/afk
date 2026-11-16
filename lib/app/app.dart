@@ -13,7 +13,9 @@ class AfkApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AppPreferences preferences = ref.watch(appPreferencesProvider).when(
+    final AppPreferences preferences = ref
+        .watch(appPreferencesProvider)
+        .when(
           data: (AppPreferences value) => value,
           error: (Object error, StackTrace stackTrace) =>
               const AppPreferences(),

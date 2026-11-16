@@ -37,11 +37,11 @@ void main() {
   ) async {
     final MemoryAppPreferencesRepository repository =
         MemoryAppPreferencesRepository(
-      initial: const AppPreferences(
-        themeMode: ThemeMode.dark,
-        locale: Locale('ar'),
-      ),
-    );
+          initial: const AppPreferences(
+            themeMode: ThemeMode.dark,
+            locale: Locale('ar'),
+          ),
+        );
 
     await tester.pumpWidget(
       ProviderScope(

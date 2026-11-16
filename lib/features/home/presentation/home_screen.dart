@@ -19,82 +19,79 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
+        child: ListView(
           padding: const EdgeInsetsDirectional.fromSTEB(
             AfkSpacing.xxl,
             AfkSpacing.xxxl,
             AfkSpacing.xxl,
             AfkSpacing.xxl,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'AFK',
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      letterSpacing: 3.2,
-                      fontWeight: FontWeight.w700,
-                    ),
+          children: <Widget>[
+            Text(
+              'AFK',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    letterSpacing: 3.2,
+                    fontWeight: FontWeight.w700,
+                  ),
+            ),
+            const SizedBox(height: AfkSpacing.section),
+            Text(
+              l10n.welcome,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: AfkSpacing.sm),
+            Text(
+              l10n.foundationLabel,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: colors.secondaryText,
+                  ),
+            ),
+            const SizedBox(height: AfkSpacing.section),
+            _PreferenceSection(
+              title: l10n.appearance,
+              value: _themeLabel(l10n, themeMode),
+              child: AfkSegmentedControl<ThemeMode>(
+                value: themeMode,
+                options: <AfkSegmentOption<ThemeMode>>[
+                  AfkSegmentOption(
+                    value: ThemeMode.system,
+                    label: l10n.system,
+                  ),
+                  AfkSegmentOption(
+                    value: ThemeMode.light,
+                    label: l10n.light,
+                  ),
+                  AfkSegmentOption(
+                    value: ThemeMode.dark,
+                    label: l10n.dark,
+                  ),
+                ],
+                onChanged: (ThemeMode value) =>
+                    ref.read(themeModeProvider.notifier).setMode(value),
               ),
-              const Spacer(),
-              Text(
-                l10n.welcome,
-                style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            _PreferenceSection(
+              title: l10n.language,
+              value: locale.languageCode == 'ar' ? l10n.arabic : l10n.english,
+              child: AfkSegmentedControl<String>(
+                value: locale.languageCode,
+                options: <AfkSegmentOption<String>>[
+                  AfkSegmentOption(value: 'en', label: l10n.english),
+                  AfkSegmentOption(value: 'ar', label: l10n.arabic),
+                ],
+                onChanged: (String value) => ref
+                    .read(localeProvider.notifier)
+                    .setLocale(Locale(value)),
               ),
-              const SizedBox(height: AfkSpacing.sm),
-              Text(
-                l10n.foundationLabel,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: colors.secondaryText,
-                    ),
-              ),
-              const SizedBox(height: AfkSpacing.section),
-              _PreferenceSection(
-                title: l10n.appearance,
-                value: _themeLabel(l10n, themeMode),
-                child: AfkSegmentedControl<ThemeMode>(
-                  value: themeMode,
-                  options: <AfkSegmentOption<ThemeMode>>[
-                    AfkSegmentOption(
-                      value: ThemeMode.system,
-                      label: l10n.system,
-                    ),
-                    AfkSegmentOption(
-                      value: ThemeMode.light,
-                      label: l10n.light,
-                    ),
-                    AfkSegmentOption(
-                      value: ThemeMode.dark,
-                      label: l10n.dark,
-                    ),
-                  ],
-                  onChanged: (ThemeMode value) =>
-                      ref.read(themeModeProvider.notifier).setMode(value),
-                ),
-              ),
-              _PreferenceSection(
-                title: l10n.language,
-                value: locale.languageCode == 'ar' ? l10n.arabic : l10n.english,
-                child: AfkSegmentedControl<String>(
-                  value: locale.languageCode,
-                  options: <AfkSegmentOption<String>>[
-                    AfkSegmentOption(value: 'en', label: l10n.english),
-                    AfkSegmentOption(value: 'ar', label: l10n.arabic),
-                  ],
-                  onChanged: (String value) => ref
-                      .read(localeProvider.notifier)
-                      .setLocale(Locale(value)),
-                ),
-              ),
-              const Spacer(),
-              Text(
-                'FOUNDATION  /  0.1.0',
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      letterSpacing: 1.4,
-                    ),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: AfkSpacing.xxxl),
+            Text(
+              'FOUNDATION  /  0.1.0',
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    letterSpacing: 1.4,
+                  ),
+            ),
+          ],
         ),
       ),
     );

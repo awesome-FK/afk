@@ -13,8 +13,16 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final ThemeMode themeMode = ref.watch(themeModeProvider);
-    final Locale locale = ref.watch(localeProvider);
+    final AsyncValue<AppPreferences> preferencesAsync =
+        ref.watch(appPreferencesProvider);
+    final AppPreferences preferences = preferencesAsync.when(
+      data: (AppPreferences value) => value,
+      error: (Object error, StackTrace stackTrace) => const AppPreferences(),
+      loading: () => const AppPreferences(),
+    );
+    final bool preferencesReady = preferencesAsync.hasValue;
+    final ThemeMode themeMode = preferences.themeMode;
+    final Locale locale = preferences.locale;
     final AfkThemeColors colors = AfkThemeColors.of(context);
 
     return Scaffold(
@@ -49,13 +57,15 @@ class HomeScreen extends ConsumerWidget {
               value: _themeLabel(l10n, themeMode),
               child: AfkSegmentedControl<ThemeMode>(
                 value: themeMode,
+                enabled: preferencesReady,
                 options: <AfkSegmentOption<ThemeMode>>[
                   AfkSegmentOption(value: ThemeMode.system, label: l10n.system),
                   AfkSegmentOption(value: ThemeMode.light, label: l10n.light),
                   AfkSegmentOption(value: ThemeMode.dark, label: l10n.dark),
                 ],
-                onChanged: (ThemeMode value) =>
-                    ref.read(themeModeProvider.notifier).setMode(value),
+                onChanged: (ThemeMode value) => ref
+                    .read(appPreferencesProvider.notifier)
+                    .setThemeMode(value),
               ),
             ),
             _PreferenceSection(
@@ -63,12 +73,14 @@ class HomeScreen extends ConsumerWidget {
               value: locale.languageCode == 'ar' ? l10n.arabic : l10n.english,
               child: AfkSegmentedControl<String>(
                 value: locale.languageCode,
+                enabled: preferencesReady,
                 options: <AfkSegmentOption<String>>[
                   AfkSegmentOption(value: 'en', label: l10n.english),
                   AfkSegmentOption(value: 'ar', label: l10n.arabic),
                 ],
-                onChanged: (String value) =>
-                    ref.read(localeProvider.notifier).setLocale(Locale(value)),
+                onChanged: (String value) => ref
+                    .read(appPreferencesProvider.notifier)
+                    .setLocale(Locale(value)),
               ),
             ),
             const SizedBox(height: AfkSpacing.xxxl),
@@ -84,10 +96,10 @@ class HomeScreen extends ConsumerWidget {
   }
 
   String _themeLabel(AppLocalizations l10n, ThemeMode mode) => switch (mode) {
-    ThemeMode.system => l10n.system,
-    ThemeMode.light => l10n.light,
-    ThemeMode.dark => l10n.dark,
-  };
+        ThemeMode.system => l10n.system,
+        ThemeMode.light => l10n.light,
+        ThemeMode.dark => l10n.dark,
+      };
 }
 
 class _PreferenceSection extends StatelessWidget {

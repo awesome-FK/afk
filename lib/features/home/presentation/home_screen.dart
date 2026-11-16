@@ -13,8 +13,9 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final AsyncValue<AppPreferences> preferencesAsync =
-        ref.watch(appPreferencesProvider);
+    final AsyncValue<AppPreferences> preferencesAsync = ref.watch(
+      appPreferencesProvider,
+    );
     final AppPreferences preferences = preferencesAsync.when(
       data: (AppPreferences value) => value,
       error: (Object error, StackTrace stackTrace) => const AppPreferences(),
@@ -96,10 +97,10 @@ class HomeScreen extends ConsumerWidget {
   }
 
   String _themeLabel(AppLocalizations l10n, ThemeMode mode) => switch (mode) {
-        ThemeMode.system => l10n.system,
-        ThemeMode.light => l10n.light,
-        ThemeMode.dark => l10n.dark,
-      };
+    ThemeMode.system => l10n.system,
+    ThemeMode.light => l10n.light,
+    ThemeMode.dark => l10n.dark,
+  };
 }
 
 class _PreferenceSection extends StatelessWidget {

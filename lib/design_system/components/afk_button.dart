@@ -38,12 +38,12 @@ class AfkButton extends StatelessWidget {
     final bool primary = variant == AfkButtonVariant.primary;
     final bool quiet = variant == AfkButtonVariant.quiet;
     final Color background = primary
-        ? colors.primaryText
+        ? colors.inverseSurface
         : quiet
         ? const Color(0x00000000)
         : colors.surface;
     final Color foreground = primary
-        ? colors.inverseSurface
+        ? colors.surface
         : enabled
         ? colors.primaryText
         : colors.disabled;

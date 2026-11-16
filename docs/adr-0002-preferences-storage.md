@@ -11,7 +11,8 @@ Theme mode and locale should survive app restarts. These values are small, non-c
 
 - Use the Flutter-maintained `shared_preferences` plugin through its `SharedPreferencesAsync` API.
 - Keep storage behind `AppPreferencesRepository`; presentation and feature code depend on the abstraction, not the plugin.
-- Store a versioned JSON payload under one key so the theme and locale update together.
+- Store a versioned JSON payload under an app-specific key derived from the configured Android application ID, so generated apps do not inherit an AFK namespace and separate app configurations remain isolated.
+- Keep the theme and locale together in the same payload.
 - Use handwritten Riverpod `AsyncNotifier` state; no code generation.
 - If reading fails, report diagnostics and continue with safe defaults. If writing fails, keep the in-memory setting and report diagnostics.
 - Serialize writes so rapid consecutive changes cannot persist out of order.

@@ -18,7 +18,7 @@ class AppErrorReporter {
             FlutterErrorDetails(
               exception: error,
               stack: stackTrace,
-              library: 'AFK',
+              library: 'app',
               context: ErrorDescription(
                 'An uncaught asynchronous error occurred.',
               ),

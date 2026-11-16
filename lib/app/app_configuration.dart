@@ -29,23 +29,35 @@ class AppIdentity {
         'Must not be empty.',
       );
     }
-    if (!_isValidApplicationId(androidApplicationId)) {
+    if (!isValidAndroidApplicationId(androidApplicationId)) {
       throw ArgumentError.value(
         androidApplicationId,
         'androidApplicationId',
+        'Must contain at least two dot-separated segments. Each segment must '
+            'start with a letter and contain only letters, numbers, or '
+            'underscores.',
       );
     }
-    if (!_isValidApplicationId(iosBundleIdentifier)) {
+    if (!isValidIosBundleIdentifier(iosBundleIdentifier)) {
       throw ArgumentError.value(
         iosBundleIdentifier,
         'iosBundleIdentifier',
+        'Must contain at least two dot-separated segments. Each segment must '
+            'start with a letter or number and contain only letters, numbers, '
+            'or hyphens. Maximum length is 255 characters.',
       );
     }
   }
 
-  static bool _isValidApplicationId(String value) => RegExp(
+  static bool isValidAndroidApplicationId(String value) => RegExp(
     r'^[A-Za-z][A-Za-z0-9_]*(\.[A-Za-z][A-Za-z0-9_]*)+$',
   ).hasMatch(value);
+
+  static bool isValidIosBundleIdentifier(String value) =>
+      value.length <= 255 &&
+      RegExp(
+        r'^[A-Za-z0-9][A-Za-z0-9-]*(\.[A-Za-z0-9][A-Za-z0-9-]*)+$',
+      ).hasMatch(value);
 }
 
 class AppConfiguration {

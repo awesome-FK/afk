@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'app_configuration.dart';
+
 @immutable
 class AppPreferences {
   const AppPreferences({
@@ -28,15 +30,17 @@ abstract interface class AppPreferencesRepository {
 
 class SharedPreferencesAppPreferencesRepository
     implements AppPreferencesRepository {
-  SharedPreferencesAppPreferencesRepository(this._storage);
-
-  static const String _storageKey = 'afk.app_preferences.v1';
+  SharedPreferencesAppPreferencesRepository(
+    this._storage, {
+    required this.storageKey,
+  });
 
   final SharedPreferencesAsync _storage;
+  final String storageKey;
 
   @override
   Future<AppPreferences> load() async {
-    final String? encoded = await _storage.getString(_storageKey);
+    final String? encoded = await _storage.getString(storageKey);
     if (encoded == null) return const AppPreferences();
 
     final Object? decoded = jsonDecode(encoded);
@@ -54,7 +58,7 @@ class SharedPreferencesAppPreferencesRepository
       'themeMode': preferences.themeMode.name,
       'locale': preferences.locale.languageCode,
     });
-    await _storage.setString(_storageKey, encoded);
+    await _storage.setString(storageKey, encoded);
   }
 
   ThemeMode _themeModeFrom(Object? value) => switch (value) {
@@ -68,10 +72,16 @@ class SharedPreferencesAppPreferencesRepository
 }
 
 final Provider<AppPreferencesRepository> appPreferencesRepositoryProvider =
-    Provider<AppPreferencesRepository>(
-      (ref) =>
-          SharedPreferencesAppPreferencesRepository(SharedPreferencesAsync()),
-    );
+    Provider<AppPreferencesRepository>((ref) {
+      final String appId = ref
+          .watch(appConfigurationProvider)
+          .identity
+          .androidApplicationId;
+      return SharedPreferencesAppPreferencesRepository(
+        SharedPreferencesAsync(),
+        storageKey: '$appId.preferences.v1',
+      );
+    });
 
 final AsyncNotifierProvider<AppPreferencesController, AppPreferences>
 appPreferencesProvider =
@@ -99,7 +109,7 @@ class AppPreferencesController extends AsyncNotifier<AppPreferences> {
 
   Future<void> setLocale(Locale locale) {
     if (locale.languageCode != 'en' && locale.languageCode != 'ar') {
-      throw ArgumentError.value(locale, 'locale', 'Unsupported AFK locale.');
+      throw ArgumentError.value(locale, 'locale', 'Unsupported app locale.');
     }
     return _update(_current.copyWith(locale: locale));
   }
@@ -126,7 +136,7 @@ class AppPreferencesController extends AsyncNotifier<AppPreferences> {
       FlutterErrorDetails(
         exception: error,
         stack: stackTrace,
-        library: 'AFK app preferences',
+        library: 'app preferences',
         context: ErrorDescription('Unable to $operation app preferences.'),
       ),
     );

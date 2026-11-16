@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../design_system/theme/afk_theme.dart';
 import '../localization/app_localizations.dart';
@@ -14,6 +15,7 @@ class AfkApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeMode themeMode = ref.watch(themeModeProvider);
     final Locale locale = ref.watch(localeProvider);
+    final GoRouter router = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
       title: 'AFK',
@@ -29,7 +31,7 @@ class AfkApp extends ConsumerWidget {
         ...GlobalWidgetsLocalizations.delegates,
         ...GlobalCupertinoLocalizations.delegates,
       ],
-      routerConfig: appRouter,
+      routerConfig: router,
     );
   }
 }

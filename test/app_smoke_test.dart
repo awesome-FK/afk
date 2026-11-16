@@ -1,6 +1,7 @@
 import 'package:afk/app/app.dart';
 import 'package:afk/app/app_configuration.dart';
 import 'package:afk/app/app_preferences.dart';
+import 'package:afk/design_system/theme/afk_theme_colors.dart';
 import 'package:afk/localization/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,6 +9,28 @@ import 'package:material_ui/material_ui.dart';
 
 import 'support/memory_app_preferences_repository.dart';
 import 'support/test_app_configuration.dart';
+
+ThemeData createAppTheme(Color seedColor, Brightness brightness) {
+  final ColorScheme scheme = ColorScheme.fromSeed(
+    seedColor: seedColor,
+    brightness: brightness,
+  );
+  return ThemeData(
+    colorScheme: scheme,
+    extensions: <ThemeExtension<dynamic>>[
+      AfkThemeColors(
+        canvas: scheme.surface,
+        surface: scheme.surface,
+        surfaceRaised: scheme.surfaceContainerHighest,
+        primaryText: scheme.onSurface,
+        secondaryText: scheme.onSurfaceVariant,
+        border: scheme.outline,
+        inverseSurface: scheme.inverseSurface,
+        disabled: Colors.grey,
+      ),
+    ],
+  );
+}
 
 void main() {
   testWidgets('renders the configured app identity in English by default', (
@@ -34,6 +57,10 @@ void main() {
   testWidgets('applies configured identity and visual theme to the app root', (
     WidgetTester tester,
   ) async {
+    final ThemeData lightTheme = createAppTheme(
+      Colors.purple,
+      Brightness.light,
+    );
     final AppConfiguration configuration = AppConfiguration(
       identity: const AppIdentity(
         displayName: 'Independent App',
@@ -41,15 +68,8 @@ void main() {
         iosBundleIdentifier: 'com.independent.app',
       ),
       environment: AppEnvironment.production,
-      lightTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal,
-          brightness: Brightness.dark,
-        ),
-      ),
+      lightTheme: lightTheme,
+      darkTheme: createAppTheme(Colors.teal, Brightness.dark),
     );
 
     await tester.pumpWidget(
@@ -70,7 +90,7 @@ void main() {
     final Finder welcome = find.text('Welcome to Independent App');
     expect(
       Theme.of(tester.element(welcome)).colorScheme.primary,
-      Colors.purple,
+      lightTheme.colorScheme.primary,
     );
   });
 

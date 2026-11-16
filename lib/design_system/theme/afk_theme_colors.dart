@@ -25,7 +25,7 @@ class AfkThemeColors extends ThemeExtension<AfkThemeColors> {
   static AfkThemeColors of(BuildContext context) {
     final AfkThemeColors? colors = Theme.of(context)
         .extension<AfkThemeColors>();
-    assert(colors != null, 'AfkThemeColors must be registered in AfkTheme.');
+    assert(colors != null, 'AfkThemeColors must be registered in the active ThemeData.');
     return colors!;
   }
 

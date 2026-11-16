@@ -107,7 +107,15 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "chore: add generated Android and iOS runners"
-            git push origin "HEAD:${BRANCH_NAME}"
+            if ! git push origin "HEAD:${BRANCH_NAME}"; then
+              git fetch origin "${BRANCH_NAME}"
+              if git merge-base --is-ancestor HEAD "origin/${BRANCH_NAME}"; then
+                git reset --hard "origin/${BRANCH_NAME}"
+              else
+                echo "Remote branch advanced independently; refusing to overwrite it." >&2
+                exit 1
+              fi
+            fi
           fi
           echo "native_commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 

@@ -21,7 +21,7 @@ void main() {
   });
 
   testWidgets('AFK button invokes its callback', (WidgetTester tester) async {
-    bool pressed = false;
+    final List<bool> pressed = <bool>[false];
 
     await tester.pumpWidget(
       MaterialApp(
@@ -30,7 +30,7 @@ void main() {
           body: Center(
             child: AfkButton(
               label: 'Continue',
-              onPressed: () => pressed = true,
+              onPressed: () => pressed[0] = true,
             ),
           ),
         ),
@@ -38,13 +38,13 @@ void main() {
     );
 
     await tester.tap(find.text('Continue'));
-    expect(pressed, isTrue);
+    expect(pressed.single, isTrue);
   });
 
   testWidgets('disabled AFK button does not invoke its callback', (
     WidgetTester tester,
   ) async {
-    bool pressed = false;
+    final List<bool> pressed = <bool>[false];
 
     await tester.pumpWidget(
       MaterialApp(
@@ -56,6 +56,6 @@ void main() {
     );
 
     await tester.tap(find.text('Unavailable'));
-    expect(pressed, isFalse);
+    expect(pressed.single, isFalse);
   });
 }

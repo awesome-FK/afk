@@ -85,7 +85,8 @@ jobs:
           test -f android/app/src/main/AndroidManifest.xml
           test -f ios/Runner.xcodeproj/project.pbxproj
           test -f ios/Runner/Info.plist
-          test -f ios/Podfile
+          test -f ios/Runner.xcworkspace/contents.xcworkspacedata
+          find android ios -maxdepth 4 -type f | sort
           git status --short
 
       - name: Run Dart quality checks

@@ -29,10 +29,8 @@ class HomeScreen extends ConsumerWidget {
           children: <Widget>[
             Text(
               'AFK',
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    letterSpacing: 3.2,
-                    fontWeight: FontWeight.w700,
-                  ),
+              style: Theme.of(context).textTheme.labelLarge
+                  ?.copyWith(letterSpacing: 3.2, fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: AfkSpacing.section),
             Text(
@@ -42,9 +40,8 @@ class HomeScreen extends ConsumerWidget {
             const SizedBox(height: AfkSpacing.sm),
             Text(
               l10n.foundationLabel,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: colors.secondaryText,
-                  ),
+              style: Theme.of(context).textTheme.bodyLarge
+                  ?.copyWith(color: colors.secondaryText),
             ),
             const SizedBox(height: AfkSpacing.section),
             _PreferenceSection(
@@ -53,18 +50,9 @@ class HomeScreen extends ConsumerWidget {
               child: AfkSegmentedControl<ThemeMode>(
                 value: themeMode,
                 options: <AfkSegmentOption<ThemeMode>>[
-                  AfkSegmentOption(
-                    value: ThemeMode.system,
-                    label: l10n.system,
-                  ),
-                  AfkSegmentOption(
-                    value: ThemeMode.light,
-                    label: l10n.light,
-                  ),
-                  AfkSegmentOption(
-                    value: ThemeMode.dark,
-                    label: l10n.dark,
-                  ),
+                  AfkSegmentOption(value: ThemeMode.system, label: l10n.system),
+                  AfkSegmentOption(value: ThemeMode.light, label: l10n.light),
+                  AfkSegmentOption(value: ThemeMode.dark, label: l10n.dark),
                 ],
                 onChanged: (ThemeMode value) =>
                     ref.read(themeModeProvider.notifier).setMode(value),
@@ -79,17 +67,15 @@ class HomeScreen extends ConsumerWidget {
                   AfkSegmentOption(value: 'en', label: l10n.english),
                   AfkSegmentOption(value: 'ar', label: l10n.arabic),
                 ],
-                onChanged: (String value) => ref
-                    .read(localeProvider.notifier)
-                    .setLocale(Locale(value)),
+                onChanged: (String value) =>
+                    ref.read(localeProvider.notifier).setLocale(Locale(value)),
               ),
             ),
             const SizedBox(height: AfkSpacing.xxxl),
             Text(
               'FOUNDATION  /  0.1.0',
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    letterSpacing: 1.4,
-                  ),
+              style: Theme.of(context).textTheme.labelSmall
+                  ?.copyWith(letterSpacing: 1.4),
             ),
           ],
         ),
@@ -98,10 +84,10 @@ class HomeScreen extends ConsumerWidget {
   }
 
   String _themeLabel(AppLocalizations l10n, ThemeMode mode) => switch (mode) {
-        ThemeMode.system => l10n.system,
-        ThemeMode.light => l10n.light,
-        ThemeMode.dark => l10n.dark,
-      };
+    ThemeMode.system => l10n.system,
+    ThemeMode.light => l10n.light,
+    ThemeMode.dark => l10n.dark,
+  };
 }
 
 class _PreferenceSection extends StatelessWidget {
@@ -131,10 +117,7 @@ class _PreferenceSection extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
-              Text(
-                value,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
+              Text(value, style: Theme.of(context).textTheme.bodySmall),
             ],
           ),
           const SizedBox(height: AfkSpacing.md),

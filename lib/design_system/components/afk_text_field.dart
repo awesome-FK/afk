@@ -78,10 +78,15 @@ class AfkTextField extends StatelessWidget {
               borderSide: BorderSide(color: colors.primaryText, width: 1.5),
             ),
             errorBorder: border.copyWith(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.error,
+              ),
             ),
             focusedErrorBorder: border.copyWith(
-              borderSide: BorderSide(color: Theme.of(context).colorScheme.error, width: 1.5),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.error,
+                width: 1.5,
+              ),
             ),
           ),
         ),

@@ -40,26 +40,26 @@ class AfkButton extends StatelessWidget {
     final Color background = primary
         ? colors.primaryText
         : quiet
-            ? const Color(0x00000000)
-            : colors.surface;
+        ? const Color(0x00000000)
+        : colors.surface;
     final Color foreground = primary
         ? colors.inverseSurface
         : enabled
-            ? colors.primaryText
-            : colors.disabled;
+        ? colors.primaryText
+        : colors.disabled;
     final EdgeInsetsGeometry padding = switch (size) {
       AfkButtonSize.small => const EdgeInsets.symmetric(
-          horizontal: AfkSpacing.md,
-          vertical: AfkSpacing.sm,
-        ),
+        horizontal: AfkSpacing.md,
+        vertical: AfkSpacing.sm,
+      ),
       AfkButtonSize.medium => const EdgeInsets.symmetric(
-          horizontal: AfkSpacing.xl,
-          vertical: AfkSpacing.md,
-        ),
+        horizontal: AfkSpacing.xl,
+        vertical: AfkSpacing.md,
+      ),
       AfkButtonSize.large => const EdgeInsets.symmetric(
-          horizontal: AfkSpacing.xxl,
-          vertical: AfkSpacing.lg,
-        ),
+        horizontal: AfkSpacing.xxl,
+        vertical: AfkSpacing.lg,
+      ),
     };
     final double minHeight = switch (size) {
       AfkButtonSize.small => 36,
@@ -110,9 +110,8 @@ class AfkButton extends StatelessWidget {
                   child: Text(
                     label,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: foreground,
-                        ),
+                    style: Theme.of(context).textTheme.labelLarge
+                        ?.copyWith(color: foreground),
                   ),
                 ),
                 if (trailing != null) ...<Widget>[

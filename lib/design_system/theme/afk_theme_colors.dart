@@ -23,8 +23,8 @@ class AfkThemeColors extends ThemeExtension<AfkThemeColors> {
   final Color disabled;
 
   static AfkThemeColors of(BuildContext context) {
-    final AfkThemeColors? colors =
-        Theme.of(context).extension<AfkThemeColors>();
+    final AfkThemeColors? colors = Theme.of(context)
+        .extension<AfkThemeColors>();
     assert(colors != null, 'AfkThemeColors must be registered in AfkTheme.');
     return colors!;
   }
@@ -39,17 +39,16 @@ class AfkThemeColors extends ThemeExtension<AfkThemeColors> {
     Color? border,
     Color? inverseSurface,
     Color? disabled,
-  }) =>
-      AfkThemeColors(
-        canvas: canvas ?? this.canvas,
-        surface: surface ?? this.surface,
-        surfaceRaised: surfaceRaised ?? this.surfaceRaised,
-        primaryText: primaryText ?? this.primaryText,
-        secondaryText: secondaryText ?? this.secondaryText,
-        border: border ?? this.border,
-        inverseSurface: inverseSurface ?? this.inverseSurface,
-        disabled: disabled ?? this.disabled,
-      );
+  }) => AfkThemeColors(
+    canvas: canvas ?? this.canvas,
+    surface: surface ?? this.surface,
+    surfaceRaised: surfaceRaised ?? this.surfaceRaised,
+    primaryText: primaryText ?? this.primaryText,
+    secondaryText: secondaryText ?? this.secondaryText,
+    border: border ?? this.border,
+    inverseSurface: inverseSurface ?? this.inverseSurface,
+    disabled: disabled ?? this.disabled,
+  );
 
   @override
   AfkThemeColors lerp(ThemeExtension<AfkThemeColors>? other, double t) {

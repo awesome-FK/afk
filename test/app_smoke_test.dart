@@ -4,8 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('renders the AFK foundation in English by default',
-      (WidgetTester tester) async {
+  testWidgets('renders the AFK foundation in English by default', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const ProviderScope(child: AfkApp()));
     await tester.pumpAndSettle();
 

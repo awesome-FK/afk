@@ -7,7 +7,7 @@ import 'app_error_reporter.dart';
 
 void bootstrap({required AppConfiguration configuration}) {
   WidgetsFlutterBinding.ensureInitialized();
-  const AppErrorReporter().install();
+  AppErrorReporter().install();
   runApp(
     ProviderScope(
       overrides: [appConfigurationProvider.overrideWithValue(configuration)],

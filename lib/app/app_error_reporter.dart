@@ -1,11 +1,9 @@
-import 'dart:ui' show PlatformDispatcher;
-
 import 'package:flutter/foundation.dart';
 
 typedef AppErrorHandler = void Function(FlutterErrorDetails details);
 
 class AppErrorReporter {
-  const AppErrorReporter({AppErrorHandler? handler})
+  AppErrorReporter({AppErrorHandler? handler})
     : _handler = handler ?? FlutterError.presentError;
 
   final AppErrorHandler _handler;

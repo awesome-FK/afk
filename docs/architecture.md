@@ -23,7 +23,7 @@ Android and iOS identifiers are validated independently. The Dart contract valid
 
 The default preferences repository derives its versioned storage key from the configured Android application ID, preventing the foundation's own identifier from being baked into generated apps. A generated app may replace this policy when it has a deliberate storage migration strategy.
 
-The repository's `main.dart` explicitly selects `exampleAppConfiguration` to keep the starter runnable. A GitHub Template copy includes that sample source, so each generated app must replace its identity and `AfkTheme` with app-owned values before shipping. These are copied source files, not a runtime dependency on AFK; later changes to this repository do not propagate to generated apps.
+The repository's `main.dart` explicitly selects `exampleAppConfiguration` to keep the starter runnable. A GitHub Template copy includes that sample source, so each generated app must replace its identity and `ExampleAppTheme` with app-owned values before shipping. These are copied source files, not a runtime dependency on AFK; later changes to this repository do not propagate to generated apps.
 
 ## Feature template
 

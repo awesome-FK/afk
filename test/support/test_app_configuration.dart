@@ -1,5 +1,5 @@
 import 'package:afk/app/app_configuration.dart';
-import 'package:afk/design_system/theme/afk_theme.dart';
+import 'package:afk/app/example_app_theme.dart';
 
 AppConfiguration testAppConfiguration({
   String displayName = 'Test App',
@@ -13,6 +13,6 @@ AppConfiguration testAppConfiguration({
     iosBundleIdentifier: iosBundleIdentifier,
   ),
   environment: environment,
-  lightTheme: AfkTheme.light(),
-  darkTheme: AfkTheme.dark(),
+  lightTheme: ExampleAppTheme.light(),
+  darkTheme: ExampleAppTheme.dark(),
 );

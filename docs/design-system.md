@@ -58,4 +58,4 @@ Before a component is considered stable, cover:
 
 ## Generated application ownership
 
-The AFK palette, typography, and `AfkTheme` form the design-system example shipped in this repository. A project created from the template owns the copied source and must define its own palette, typography, and theme before release. Reuse the component and token patterns as infrastructure; do not treat AFK's sample colors, font choices, or theme as mandatory product branding.
+The AFK palette, typography, and `AfkTheme` form the design-system example shipped in this repository. The repository's `main.dart` uses a neutral `ExampleAppTheme` so the sample UI can run without activating AFK's monochrome palette or custom typeface. A project created from the template owns the copied source and must define its own palette, typography, and theme before release. Reuse component and token patterns as infrastructure; do not treat AFK's sample colors, font choices, or `AfkTheme` as mandatory product branding.

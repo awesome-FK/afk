@@ -1,4 +1,4 @@
-import '../design_system/theme/afk_theme.dart';
+import 'example_app_theme.dart';
 import 'app_configuration.dart';
 
 final AppConfiguration exampleAppConfiguration = AppConfiguration(
@@ -8,7 +8,7 @@ final AppConfiguration exampleAppConfiguration = AppConfiguration(
     iosBundleIdentifier: 'com.example.app',
   ),
   environment: AppEnvironment.development,
-  lightTheme: AfkTheme.light(),
-  darkTheme: AfkTheme.dark(),
+  lightTheme: ExampleAppTheme.light(),
+  darkTheme: ExampleAppTheme.dark(),
   showDebugBanner: true,
 );

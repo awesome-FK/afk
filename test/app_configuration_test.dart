@@ -53,7 +53,10 @@ void main() {
     expect(alpha.identity.androidApplicationId, 'com.alpha.mobile');
     expect(alpha.identity.iosBundleIdentifier, 'com.alpha.mobile');
     expect(alpha.environment, AppEnvironment.staging);
-    expect(alpha.lightTheme.colorScheme.primary, isNot(beta.lightTheme.colorScheme.primary));
+    expect(
+      alpha.lightTheme.colorScheme.primary,
+      isNot(beta.lightTheme.colorScheme.primary),
+    );
     expect(beta.identity.displayName, 'Beta');
     expect(beta.identity.androidApplicationId, 'io.beta.client');
     expect(beta.identity.iosBundleIdentifier, 'io.beta.client');
@@ -108,7 +111,9 @@ void main() {
     }
   });
 
-  test('configuration rejects blank names and invalid platform identifiers', () {
+  test(
+    'configuration rejects blank names and invalid platform identifiers',
+    () {
     expect(
       () => makeConfiguration(
         name: ' ',
@@ -141,7 +146,9 @@ void main() {
     );
   });
 
-  test('separate provider containers receive app-specific storage namespaces', () {
+  test(
+    'separate provider containers receive app-specific storage namespaces',
+    () {
     final AppConfiguration alpha = makeConfiguration(
       name: 'Alpha',
       androidId: 'com.alpha.mobile',

@@ -65,8 +65,10 @@ def validate_ios(display_name: str, bundle_id: str) -> None:
         r"PRODUCT_BUNDLE_IDENTIFIER\s*=\s*([^;]+);", project
     )
     bundle_values = [value.strip().strip('"') for value in bundle_values]
-    require(len(bundle_values) >= 3, f"Expected Debug, Release, and Profile bundle IDs; found {bundle_values!r}")
-    require(all(value == bundle_id for value in bundle_values), f"iOS bundle IDs differ from {bundle_id!r}: {bundle_values!r}")
+    app_values = [value for value in bundle_values if value == bundle_id]
+    test_values = [value for value in bundle_values if value == f"{bundle_id}.RunnerTests"]
+    require(len(app_values) >= 3, f"Expected app bundle IDs for Debug, Release, and Profile; found {bundle_values!r}")
+    require(len(app_values) + len(test_values) == len(bundle_values), f"Unexpected iOS bundle IDs: {bundle_values!r}")
 
     with IOS_INFO.open("rb") as info_file:
         info = plistlib.load(info_file)

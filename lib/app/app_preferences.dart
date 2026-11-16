@@ -23,6 +23,11 @@ class AppPreferences {
       );
 }
 
+abstract final class AppPreferencesStorageKey {
+  static String forIdentity(AppIdentity identity) =>
+      '${identity.androidApplicationId}.preferences.v1';
+}
+
 abstract interface class AppPreferencesRepository {
   Future<AppPreferences> load();
   Future<void> save(AppPreferences preferences);
@@ -73,13 +78,12 @@ class SharedPreferencesAppPreferencesRepository
 
 final Provider<AppPreferencesRepository> appPreferencesRepositoryProvider =
     Provider<AppPreferencesRepository>((ref) {
-      final String appId = ref
-          .watch(appConfigurationProvider)
-          .identity
-          .androidApplicationId;
+      ref.watch(appConfigurationProvider);
       return SharedPreferencesAppPreferencesRepository(
         SharedPreferencesAsync(),
-        storageKey: '$appId.preferences.v1',
+        storageKey: AppPreferencesStorageKey.forIdentity(
+          ref.watch(appConfigurationProvider).identity,
+        ),
       );
     });
 

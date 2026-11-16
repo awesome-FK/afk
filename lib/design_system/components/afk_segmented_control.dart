@@ -45,9 +45,7 @@ class AfkSegmentedControl<T> extends StatelessWidget {
           children: <Widget>[
             for (final AfkSegmentOption<T> option in options)
               if (expand)
-                Expanded(
-                  child: _segment(context, colors, option, reduceMotion),
-                )
+                Expanded(child: _segment(context, colors, option, reduceMotion))
               else
                 _segment(context, colors, option, reduceMotion),
           ],
@@ -88,12 +86,12 @@ class AfkSegmentedControl<T> extends StatelessWidget {
                 option.label,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: !enabled
-                          ? colors.disabled
-                          : selected
-                              ? colors.surface
-                              : colors.secondaryText,
-                    ),
+                  color: !enabled
+                      ? colors.disabled
+                      : selected
+                      ? colors.surface
+                      : colors.secondaryText,
+                ),
               ),
             ),
           ),

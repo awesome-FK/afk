@@ -38,11 +38,11 @@ void main() {
   ) async {
     final MemoryAppPreferencesRepository repository =
         MemoryAppPreferencesRepository(
-      initial: const AppPreferences(
-        themeMode: ThemeMode.dark,
-        locale: Locale('ar'),
-      ),
-    );
+          initial: const AppPreferences(
+            themeMode: ThemeMode.dark,
+            locale: Locale('ar'),
+          ),
+        );
 
     await tester.pumpWidget(
       ProviderScope(
@@ -95,8 +95,7 @@ void main() {
     );
 
     final Finder label = find.text('Primary action');
-    final AfkThemeColors colors =
-        AfkThemeColors.of(tester.element(label));
+    final AfkThemeColors colors = AfkThemeColors.of(tester.element(label));
     final Text text = tester.widget<Text>(label);
 
     expect(text.style?.color, colors.surface);

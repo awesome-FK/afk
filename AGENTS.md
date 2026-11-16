@@ -12,9 +12,11 @@
 - Features own their business rules. Shared code must be genuinely cross-feature.
 - UI values come from design tokens; avoid one-off colors, spacing, radii, and durations.
 - Material components are not the final AFK visual language. Use framework packages only where infrastructure or semantics justify them.
+- On Flutter 3.50+, import Material APIs from `package:material_ui/material_ui.dart`; do not introduce deprecated `package:flutter/material.dart` imports. Use `GlobalMaterialLocalizations.delegates` for framework Material/Cupertino/widget localization delegates.
 - Support English, Arabic, RTL, text scaling, semantics, and reduced motion.
 - Do not swallow exceptions. Translate failures into explicit, user-safe states and preserve diagnostics.
-- Do not add a dependency without documenting why the SDK or an existing dependency is insufficient.
+- Do not add a dependency without documenting why the SDK or an existing dependency is insufficient. Record foundational dependency decisions in an ADR.
+- `shared_preferences` is only for non-critical preferences; never store credentials, tokens, or sensitive records there.
 - Never claim a command, test, build, or device check passed unless it was actually run.
 
 ## Required before completion

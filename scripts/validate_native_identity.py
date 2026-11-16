@@ -49,8 +49,12 @@ def validate_android(display_name: str, application_id: str) -> None:
     app_id_values = re.findall(
         r"(?m)^\s*applicationId\s*(?:=\s*)?['\"]([^'\"]+)['\"]", gradle
     )
+    suffix_values = re.findall(
+        r"(?m)^\s*applicationIdSuffix\s*(?:=\s*)?['\"]([^'\"]*)['\"]", gradle
+    )
     require(namespace_values == [application_id], f"Android namespace values are {namespace_values!r}")
     require(app_id_values == [application_id], f"Android applicationId values are {app_id_values!r}")
+    require(not suffix_values, f"Unexpected Android applicationIdSuffix values: {suffix_values!r}")
 
     manifest = ET.parse(ANDROID_MANIFEST).getroot()
     application = manifest.find("application")
@@ -61,14 +65,31 @@ def validate_android(display_name: str, application_id: str) -> None:
 
 def validate_ios(display_name: str, bundle_id: str) -> None:
     project = IOS_PROJECT.read_text(encoding="utf-8")
-    bundle_values = re.findall(
-        r"PRODUCT_BUNDLE_IDENTIFIER\s*=\s*([^;]+);", project
+    config_list = re.search(
+        r'(?m)^\s*([A-F0-9]{24}) /\* Build configuration list for PBXNativeTarget "Runner" \*/ = \{\s*'
+        r'isa = XCConfigurationList;\s*buildConfigurations = \((.*?)\);',
+        project,
+        re.S,
     )
-    bundle_values = [value.strip().strip('"') for value in bundle_values]
-    app_values = [value for value in bundle_values if value == bundle_id]
-    test_values = [value for value in bundle_values if value == f"{bundle_id}.RunnerTests"]
-    require(len(app_values) >= 3, f"Expected app bundle IDs for Debug, Release, and Profile; found {bundle_values!r}")
-    require(len(app_values) + len(test_values) == len(bundle_values), f"Unexpected iOS bundle IDs: {bundle_values!r}")
+    require(config_list is not None, "Could not locate Runner target build configuration list")
+    configuration_refs = re.findall(
+        r"([A-F0-9]{24}) /\* (Debug|Release|Profile) \*/",
+        config_list.group(2),
+    )
+    require(
+        {name for _, name in configuration_refs} == {"Debug", "Release", "Profile"},
+        f"Runner target does not define Debug, Release, and Profile: {configuration_refs!r}",
+    )
+    for config_id, config_name in configuration_refs:
+        config = re.search(
+            rf"(?m)^\s*{config_id} /\* {config_name} \*/ = \{{(.*?)(?=^\s*[A-F0-9]{{24}} /\*|\Z)",
+            project,
+            re.S | re.M,
+        )
+        require(config is not None, f"Could not read iOS {config_name} build settings")
+        value = re.search(r"PRODUCT_BUNDLE_IDENTIFIER\s*=\s*([^;]+);", config.group(1))
+        actual = value.group(1).strip().strip('"') if value else None
+        require(actual == bundle_id, f"iOS Runner {config_name} bundle ID is {actual!r}, expected {bundle_id!r}")
 
     with IOS_INFO.open("rb") as info_file:
         info = plistlib.load(info_file)

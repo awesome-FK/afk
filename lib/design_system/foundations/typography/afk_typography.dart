@@ -9,28 +9,24 @@ abstract final class AfkTypography {
         fontSize: 56,
         height: 1.08,
         fontWeight: FontWeight.w600,
-        letterSpacing: -2.2,
       ),
       displayMedium: base.displayMedium?.copyWith(
         color: primary,
         fontSize: 44,
         height: 1.12,
         fontWeight: FontWeight.w600,
-        letterSpacing: -1.6,
       ),
       headlineLarge: base.headlineLarge?.copyWith(
         color: primary,
         fontSize: 32,
         height: 1.2,
         fontWeight: FontWeight.w600,
-        letterSpacing: -0.9,
       ),
       headlineMedium: base.headlineMedium?.copyWith(
         color: primary,
         fontSize: 28,
         height: 1.25,
         fontWeight: FontWeight.w600,
-        letterSpacing: -0.6,
       ),
       titleLarge: base.titleLarge?.copyWith(
         color: primary,

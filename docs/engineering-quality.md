@@ -8,7 +8,8 @@ AFK aims to make the reliable path the easy path.
 - UI uses semantic design tokens and supports English/Arabic directionality.
 - Behavior has focused tests; visual behavior has widget tests where practical.
 - `dart format`, `flutter analyze`, and relevant tests pass on a supported Flutter SDK.
-- CI repeats deterministic checks.
+- Native application identifiers and display names are validated against the Dart `AppIdentity` by reading the actual Android and iOS project files.
+- CI builds an Android Debug APK and an unsigned iOS Simulator app on their respective hosted operating systems.
 - The author reports what was actually verified and what remains unverified.
 
 ## AI-assisted contribution rules

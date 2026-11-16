@@ -29,6 +29,8 @@ Do not create empty layers. A simple feature may start with presentation only.
 
 - Riverpod is the composition and state lifecycle mechanism.
 - Use the narrowest provider type that expresses the state.
+- App-wide theme and locale preferences are loaded through an asynchronous repository boundary and exposed as an `AsyncNotifier`; the app renders safe defaults while storage initializes.
+- Persist only non-critical settings in key-value storage. Authentication secrets, financial records, and other critical data require a different storage/security design.
 - Keep ephemeral widget state local.
 - Providers must not become service locators or global dumping grounds.
 - Keep side effects explicit and testable; do not perform writes during provider build.

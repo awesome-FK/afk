@@ -114,8 +114,8 @@ void main() {
   test(
     'configuration rejects blank names and invalid platform identifiers',
     () {
-    expect(
-      () => makeConfiguration(
+      expect(
+        () => makeConfiguration(
         name: ' ',
         androidId: 'com.example.app',
         iosId: 'com.example.app',
@@ -149,38 +149,39 @@ void main() {
   test(
     'separate provider containers receive app-specific storage namespaces',
     () {
-    final AppConfiguration alpha = makeConfiguration(
-      name: 'Alpha',
-      androidId: 'com.alpha.mobile',
-      iosId: 'com.alpha.mobile',
-      environment: AppEnvironment.development,
-      primaryColor: Colors.purple,
-    );
-    final AppConfiguration beta = makeConfiguration(
-      name: 'Beta',
-      androidId: 'com.beta.mobile',
-      iosId: 'com.beta.mobile',
-      environment: AppEnvironment.development,
-      primaryColor: Colors.teal,
-    );
-    final ProviderContainer alphaContainer = ProviderContainer(
-      overrides: [appConfigurationProvider.overrideWithValue(alpha)],
-    );
-    final ProviderContainer betaContainer = ProviderContainer(
-      overrides: [appConfigurationProvider.overrideWithValue(beta)],
-    );
-    addTearDown(alphaContainer.dispose);
-    addTearDown(betaContainer.dispose);
+        final AppConfiguration alpha = makeConfiguration(
+        name: 'Alpha',
+        androidId: 'com.alpha.mobile',
+        iosId: 'com.alpha.mobile',
+        environment: AppEnvironment.development,
+        primaryColor: Colors.purple,
+      );
+      final AppConfiguration beta = makeConfiguration(
+        name: 'Beta',
+        androidId: 'com.beta.mobile',
+        iosId: 'com.beta.mobile',
+        environment: AppEnvironment.development,
+        primaryColor: Colors.teal,
+      );
+      final ProviderContainer alphaContainer = ProviderContainer(
+        overrides: [appConfigurationProvider.overrideWithValue(alpha)],
+      );
+      final ProviderContainer betaContainer = ProviderContainer(
+        overrides: [appConfigurationProvider.overrideWithValue(beta)],
+      );
+      addTearDown(alphaContainer.dispose);
+      addTearDown(betaContainer.dispose);
 
-    final SharedPreferencesAppPreferencesRepository alphaRepository =
-        alphaContainer.read(appPreferencesRepositoryProvider)
-            as SharedPreferencesAppPreferencesRepository;
-    final SharedPreferencesAppPreferencesRepository betaRepository =
-        betaContainer.read(appPreferencesRepositoryProvider)
-            as SharedPreferencesAppPreferencesRepository;
+      final SharedPreferencesAppPreferencesRepository alphaRepository =
+          alphaContainer.read(appPreferencesRepositoryProvider)
+              as SharedPreferencesAppPreferencesRepository;
+      final SharedPreferencesAppPreferencesRepository betaRepository =
+          betaContainer.read(appPreferencesRepositoryProvider)
+              as SharedPreferencesAppPreferencesRepository;
 
-    expect(alphaRepository.storageKey, 'com.alpha.mobile.preferences.v1');
-    expect(betaRepository.storageKey, 'com.beta.mobile.preferences.v1');
-    expect(alphaRepository.storageKey, isNot(betaRepository.storageKey));
-  });
+      expect(alphaRepository.storageKey, 'com.alpha.mobile.preferences.v1');
+      expect(betaRepository.storageKey, 'com.beta.mobile.preferences.v1');
+      expect(alphaRepository.storageKey, isNot(betaRepository.storageKey));
+    },
+  );
 }

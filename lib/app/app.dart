@@ -1,0 +1,35 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../design_system/theme/afk_theme.dart';
+import '../localization/app_localizations.dart';
+import '../routing/app_router.dart';
+import 'app_preferences.dart';
+
+class AfkApp extends ConsumerWidget {
+  const AfkApp({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ThemeMode themeMode = ref.watch(themeModeProvider);
+    final Locale locale = ref.watch(localeProvider);
+
+    return MaterialApp.router(
+      title: 'AFK',
+      debugShowCheckedModeBanner: false,
+      theme: AfkTheme.light(),
+      darkTheme: AfkTheme.dark(),
+      themeMode: themeMode,
+      locale: locale,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: <LocalizationsDelegate<dynamic>>[
+        AppLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+        ...GlobalWidgetsLocalizations.delegates,
+        ...GlobalCupertinoLocalizations.delegates,
+      ],
+      routerConfig: appRouter,
+    );
+  }
+}

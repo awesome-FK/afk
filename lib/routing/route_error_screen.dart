@@ -1,5 +1,5 @@
-import 'package:material_ui/material_ui.dart';
 import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../design_system/components/afk_button.dart';
 import '../design_system/foundations/spacing/afk_spacing.dart';

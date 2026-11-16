@@ -58,7 +58,8 @@ class AppIdentity {
       value.length <= 255 &&
       RegExp(
         r'^[A-Za-z0-9][A-Za-z0-9-]*(\.[A-Za-z0-9][A-Za-z0-9-]*)+$',
-      ).hasMatch(value);
+      )
+      .hasMatch(value);
 }
 
 class AppConfiguration {

@@ -12,7 +12,8 @@ class AppErrorReporter {
 
   void install() {
     FlutterError.onError = report;
-    PlatformDispatcher.instance
+    PlatformDispatcher
+        .instance
         .onError = (Object error, StackTrace stackTrace) {
           report(
             FlutterErrorDetails(

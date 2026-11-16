@@ -116,40 +116,41 @@ void main() {
     () {
       expect(
         () => makeConfiguration(
-        name: ' ',
-        androidId: 'com.example.app',
-        iosId: 'com.example.app',
-        environment: AppEnvironment.development,
-        primaryColor: Colors.black,
-      ),
-      throwsArgumentError,
-    );
-    expect(
-      () => makeConfiguration(
-        name: 'Example',
-        androidId: 'invalid-id',
-        iosId: 'com.example.app',
-        environment: AppEnvironment.development,
-        primaryColor: Colors.black,
-      ),
-      throwsArgumentError,
-    );
-    expect(
-      () => makeConfiguration(
-        name: 'Example',
-        androidId: 'com.example.app',
-        iosId: 'com.example_app',
-        environment: AppEnvironment.development,
-        primaryColor: Colors.black,
-      ),
-      throwsArgumentError,
-    );
-  });
+          name: ' ',
+          androidId: 'com.example.app',
+          iosId: 'com.example.app',
+          environment: AppEnvironment.development,
+          primaryColor: Colors.black,
+        ),
+        throwsArgumentError,
+      );
+      expect(
+        () => makeConfiguration(
+          name: 'Example',
+          androidId: 'invalid-id',
+          iosId: 'com.example.app',
+          environment: AppEnvironment.development,
+          primaryColor: Colors.black,
+        ),
+        throwsArgumentError,
+      );
+      expect(
+        () => makeConfiguration(
+          name: 'Example',
+          androidId: 'com.example.app',
+          iosId: 'com.example_app',
+          environment: AppEnvironment.development,
+          primaryColor: Colors.black,
+        ),
+        throwsArgumentError,
+      );
+    },
+  );
 
   test(
     'separate provider containers receive app-specific storage namespaces',
     () {
-        final AppConfiguration alpha = makeConfiguration(
+      final AppConfiguration alpha = makeConfiguration(
         name: 'Alpha',
         androidId: 'com.alpha.mobile',
         iosId: 'com.alpha.mobile',

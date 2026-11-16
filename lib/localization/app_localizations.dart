@@ -16,7 +16,8 @@ class AppLocalizations {
 
   bool get isArabic => locale.languageCode == 'ar';
 
-  String get welcome => isArabic ? 'مرحباً بك في AFK' : 'Welcome to AFK';
+  String welcome(String appName) =>
+      isArabic ? 'مرحباً بك في $appName' : 'Welcome to $appName';
   String get foundationLabel => isArabic
       ? 'أساس متين لتطبيقات الهاتف'
       : 'A considered foundation for mobile apps';

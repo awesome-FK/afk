@@ -1,4 +1,6 @@
 import 'package:afk/app/app.dart';
+import 'package:afk/app/app_configuration.dart';
+import 'support/test_app_configuration.dart';
 import 'package:afk/app/app_preferences.dart';
 import 'package:afk/localization/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,14 +18,15 @@ void main() {
       ProviderScope(
         overrides: [
           appPreferencesRepositoryProvider.overrideWithValue(repository),
+          appConfigurationProvider.overrideWithValue(testAppConfiguration()),
         ],
         child: const AfkApp(),
       ),
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('AFK'), findsOneWidget);
-    expect(find.text('Welcome to AFK'), findsOneWidget);
+    expect(find.text('Test App'), findsOneWidget);
+    expect(find.text('Welcome to Test App'), findsOneWidget);
     expect(find.text('Appearance'), findsOneWidget);
   });
 

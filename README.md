@@ -2,6 +2,12 @@
 
 A polished, feature-first Flutter foundation for building consistent Android and iOS applications.
 
+## Distribution model
+
+AFK is intended to be distributed as a GitHub Template. Each generated application owns an independent repository, app identity, native identifiers, configuration, and release lifecycle. Generated applications do not depend on AFK at runtime. Stable shared capabilities may become separately versioned packages only when reuse justifies that boundary; changes to AFK never propagate automatically into generated applications.
+
+The application entry point must supply a validated `AppConfiguration`. It combines a typed `AppIdentity`, an `AppEnvironment`, and the application's own light/dark themes. Android `applicationId` and iOS `PRODUCT_BUNDLE_IDENTIFIER` must match the identifiers declared in that identity when native runners are generated. The AFK example configuration is explicit and is not a default inherited by generated products.
+
 ## Product principles
 
 - **Feature-first architecture** with clear ownership and dependency boundaries.

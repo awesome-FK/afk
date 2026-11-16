@@ -1,4 +1,6 @@
 import 'package:afk/app/app.dart';
+import 'package:afk/app/app_configuration.dart';
+import 'support/test_app_configuration.dart';
 import 'package:afk/app/app_preferences.dart';
 import 'package:afk/design_system/components/afk_button.dart';
 import 'package:afk/design_system/theme/afk_theme.dart';
@@ -19,8 +21,9 @@ void main() {
       ProviderScope(
         overrides: [
           appPreferencesRepositoryProvider.overrideWithValue(repository),
+          appConfigurationProvider.overrideWithValue(testAppConfiguration()),
         ],
-        child: const AfkApp(),
+        child: const AppRoot(),
       ),
     );
     await tester.pumpAndSettle();
@@ -28,7 +31,7 @@ void main() {
     await tester.tap(find.text('العربية'));
     await tester.pumpAndSettle();
 
-    final Finder welcome = find.text('مرحباً بك في AFK');
+    final Finder welcome = find.text('مرحباً بك في Test App');
     expect(welcome, findsOneWidget);
     expect(Directionality.of(tester.element(welcome)), TextDirection.rtl);
   });

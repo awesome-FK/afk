@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../app/app_configuration.dart';
 import '../../../app/app_preferences.dart';
 import '../../../design_system/components/afk_segmented_control.dart';
 import '../../../design_system/foundations/spacing/afk_spacing.dart';
@@ -37,13 +38,13 @@ class HomeScreen extends ConsumerWidget {
           ),
           children: <Widget>[
             Text(
-              'AFK',
+              ref.watch(appConfigurationProvider).identity.displayName,
               style: Theme.of(context).textTheme.labelLarge
                   ?.copyWith(letterSpacing: 3.2, fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: AfkSpacing.section),
             Text(
-              l10n.welcome,
+              l10n.welcome(ref.watch(appConfigurationProvider).identity.displayName),
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: AfkSpacing.sm),

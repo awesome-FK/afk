@@ -2,16 +2,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
-import '../design_system/theme/afk_theme.dart';
 import '../localization/app_localizations.dart';
 import '../routing/app_router.dart';
+import 'app_configuration.dart';
 import 'app_preferences.dart';
 
-class AfkApp extends ConsumerWidget {
-  const AfkApp({super.key});
+class AppRoot extends ConsumerWidget {
+  const AppRoot({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final AppConfiguration configuration = ref.watch(appConfigurationProvider);
     final AppPreferences preferences = ref
         .watch(appPreferencesProvider)
         .when(
@@ -23,10 +24,10 @@ class AfkApp extends ConsumerWidget {
     final GoRouter router = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
-      title: 'AFK',
-      debugShowCheckedModeBanner: false,
-      theme: AfkTheme.light(),
-      darkTheme: AfkTheme.dark(),
+      title: configuration.identity.displayName,
+      debugShowCheckedModeBanner: configuration.showDebugBanner,
+      theme: configuration.lightTheme,
+      darkTheme: configuration.darkTheme,
       themeMode: preferences.themeMode,
       locale: preferences.locale,
       supportedLocales: AppLocalizations.supportedLocales,

@@ -1,6 +1,7 @@
 name: Generate Native Runners
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - chore/native-platform-foundation

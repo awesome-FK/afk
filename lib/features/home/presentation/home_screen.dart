@@ -44,7 +44,9 @@ class HomeScreen extends ConsumerWidget {
             ),
             const SizedBox(height: AfkSpacing.section),
             Text(
-              l10n.welcome(ref.watch(appConfigurationProvider).identity.displayName),
+              l10n.welcome(
+                ref.watch(appConfigurationProvider).identity.displayName,
+              ),
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: AfkSpacing.sm),

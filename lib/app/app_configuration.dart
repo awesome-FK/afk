@@ -23,13 +23,23 @@ class AppIdentity {
 
   void validate() {
     if (displayName.trim().isEmpty) {
-      throw ArgumentError.value(displayName, 'displayName', 'Must not be empty.');
+      throw ArgumentError.value(
+        displayName,
+        'displayName',
+        'Must not be empty.',
+      );
     }
     if (!_isValidApplicationId(androidApplicationId)) {
-      throw ArgumentError.value(androidApplicationId, 'androidApplicationId');
+      throw ArgumentError.value(
+        androidApplicationId,
+        'androidApplicationId',
+      );
     }
     if (!_isValidApplicationId(iosBundleIdentifier)) {
-      throw ArgumentError.value(iosBundleIdentifier, 'iosBundleIdentifier');
+      throw ArgumentError.value(
+        iosBundleIdentifier,
+        'iosBundleIdentifier',
+      );
     }
   }
 

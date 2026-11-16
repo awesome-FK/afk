@@ -12,17 +12,20 @@ class AppErrorReporter {
 
   void install() {
     FlutterError.onError = report;
-    PlatformDispatcher.instance.onError = (Object error, StackTrace stackTrace) {
-      report(
-        FlutterErrorDetails(
-          exception: error,
-          stack: stackTrace,
-          library: 'AFK',
-          context: ErrorDescription('An uncaught asynchronous error occurred.'),
-        ),
-      );
-      return true;
-    };
+    PlatformDispatcher.instance.onError =
+        (Object error, StackTrace stackTrace) {
+          report(
+            FlutterErrorDetails(
+              exception: error,
+              stack: stackTrace,
+              library: 'AFK',
+              context: ErrorDescription(
+                'An uncaught asynchronous error occurred.',
+              ),
+            ),
+          );
+          return true;
+        };
   }
 
   void report(FlutterErrorDetails details) => _handler(details);

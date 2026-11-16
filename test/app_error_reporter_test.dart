@@ -7,7 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   test('forwards framework and platform errors to the configured handler', () {
     final List<FlutterErrorDetails> reported = <FlutterErrorDetails>[];
-    final FlutterExceptionHandler? previousFlutterHandler = FlutterError.onError;
+    final FlutterExceptionHandler? previousFlutterHandler =
+        FlutterError.onError;
     final bool Function(Object, StackTrace)? previousPlatformHandler =
         PlatformDispatcher.instance.onError;
     addTearDown(() {

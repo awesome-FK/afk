@@ -15,7 +15,7 @@ Material/Cupertino framework facilities may provide platform integration, semant
 - **Motion:** use `AfkMotion` and respect `MediaQuery.disableAnimations`.
 - **Theme:** `AfkTheme.light()` and `AfkTheme.dark()` register the semantic theme extension.
 
-The current typography intentionally uses the platform's default font fallback. A bundled Latin/Arabic family is not selected yet: font choice must be validated for Arabic shaping, weights, readability, binary size, and redistribution license before being added.
+AFK bundles **IBM Plex Sans Arabic** (Regular, Medium, SemiBold, Bold) under the SIL Open Font License 1.1. The family includes Arabic shaping and Latin glyph coverage, so one consistent family is used across both locales. The font is registered as `AfkPlexArabic` in `pubspec.yaml` and applied at the theme boundary; feature screens must not set font families directly. Keep the upstream `OFL.txt` alongside the binaries.
 
 ## Semantic color roles
 

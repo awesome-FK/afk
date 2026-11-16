@@ -68,6 +68,7 @@ abstract final class AfkTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
+      fontFamily: 'AfkPlexArabic',
       colorScheme: colorScheme,
       scaffoldBackgroundColor: canvas,
       canvasColor: canvas,

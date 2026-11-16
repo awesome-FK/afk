@@ -1,0 +1,170 @@
+name: Generate Native Runners
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - chore/native-platform-foundation
+    paths:
+      - .github/workflows/generate-native-runners.yml
+      - scripts/validate_native_identity.py
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-verify:
+    runs-on: ubuntu-latest
+    outputs:
+      native_commit: ${{ steps.commit.outputs.native_commit }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.50.0
+          channel: stable
+          cache: true
+      - name: Generate official Android and iOS runners
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Preserve AFK-owned project files that flutter create may scaffold.
+          mkdir -p "$RUNNER_TEMP/afk-preserved"
+          for path in pubspec.yaml pubspec.lock .gitignore; do
+            if [ -f "$path" ]; then cp -a "$path" "$RUNNER_TEMP/afk-preserved/"; fi
+          done
+          if [ -d test ]; then cp -a test "$RUNNER_TEMP/afk-preserved/test"; fi
+
+          flutter create --no-pub --platforms=android,ios --org com.example --project-name app .
+
+          for path in pubspec.yaml pubspec.lock .gitignore; do
+            if [ -f "$RUNNER_TEMP/afk-preserved/$path" ]; then
+              cp -a "$RUNNER_TEMP/afk-preserved/$path" "$path"
+            fi
+          done
+          if [ -d "$RUNNER_TEMP/afk-preserved/test" ]; then
+            rm -rf test
+            cp -a "$RUNNER_TEMP/afk-preserved/test" test
+          fi
+
+          # Apply the display name in the real native manifests.
+          python - <<'PY'
+          import plistlib
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          android_manifest = Path("android/app/src/main/AndroidManifest.xml")
+          ET.register_namespace("android", "http://schemas.android.com/apk/res/android")
+          tree = ET.parse(android_manifest)
+          application = tree.getroot().find("application")
+          if application is None:
+              raise SystemExit("Android manifest has no application element")
+          application.set("{http://schemas.android.com/apk/res/android}label", "Example App")
+          tree.write(android_manifest, encoding="utf-8", xml_declaration=True)
+
+          info_path = Path("ios/Runner/Info.plist")
+          with info_path.open("rb") as source:
+              info = plistlib.load(source)
+          info["CFBundleDisplayName"] = "Example App"
+          with info_path.open("wb") as destination:
+              plistlib.dump(info, destination, sort_keys=False)
+          PY
+
+          # Fail unless both platforms' real configuration files match Dart AppIdentity.
+          python scripts/validate_native_identity.py
+          test -f android/app/build.gradle.kts || test -f android/app/build.gradle
+          test -f android/settings.gradle.kts || test -f android/settings.gradle
+          test -f android/gradle/wrapper/gradle-wrapper.properties
+          test -f android/app/src/main/AndroidManifest.xml
+          test -f ios/Runner.xcodeproj/project.pbxproj
+          test -f ios/Runner/Info.plist
+          test -f ios/Runner.xcworkspace/contents.xcworkspacedata
+          find android ios -maxdepth 4 -type f | sort
+          git status --short
+
+      - name: Run Dart quality checks
+        run: |
+          flutter pub get
+          dart format --output=none --set-exit-if-changed .
+          flutter analyze
+          flutter test
+
+      - name: Commit native runners to the existing PR branch
+        id: commit
+        env:
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+          git add android ios .metadata
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore: add generated Android and iOS runners"
+            if ! git push origin "HEAD:${BRANCH_NAME}"; then
+              git fetch origin "${BRANCH_NAME}"
+              if git merge-base --is-ancestor HEAD "origin/${BRANCH_NAME}"; then
+                git reset --hard "origin/${BRANCH_NAME}"
+              else
+                echo "Remote branch advanced independently; refusing to overwrite it." >&2
+                exit 1
+              fi
+            fi
+          fi
+          echo "native_commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload generated native runners
+        uses: actions/upload-artifact@v4
+        with:
+          name: flutter-3.50.0-native-runners
+          path: |
+            android/
+            ios/
+            .metadata
+          if-no-files-found: error
+          retention-days: 7
+
+  android-debug:
+    needs: generate-and-verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.generate-and-verify.outputs.native_commit }}
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.50.0
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: python scripts/validate_native_identity.py
+      - run: flutter build apk --debug
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: afk-android-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
+          retention-days: 7
+
+  ios-simulator:
+    needs: generate-and-verify
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.generate-and-verify.outputs.native_commit }}
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.50.0
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: python3 scripts/validate_native_identity.py
+      - run: flutter build ios --simulator --no-codesign

@@ -37,20 +37,14 @@ Material UI is used as a framework dependency for platform integration, semantic
 
 ## Quick start
 
-Generate the native runners into a temporary project so AFK's existing `pubspec.yaml` is preserved. Replace the organization identifier before running:
+Generate the official Android and iOS runners with Flutter 3.50.0 and keep their native identifiers synchronized with `exampleAppConfiguration`. The automated Native Platform Foundation workflow generates the runners, validates the real native project files, runs Dart quality checks, and builds Android Debug and iOS Simulator targets. See [Native platform setup](docs/platform-setup.md) for local regeneration and validation instructions.
 
 ```sh
-ORG="com.example"
-TMP_DIR="$(mktemp -d)"
-flutter create --empty --platforms=android,ios --org "$ORG" --project-name afk "$TMP_DIR/afk"
-cp -R "$TMP_DIR/afk/android" "$TMP_DIR/afk/ios" .
-cp "$TMP_DIR/afk/.metadata" .
-rm -rf "$TMP_DIR"
-
 flutter pub get
 dart format .
 flutter analyze
 flutter test
+python3 scripts/validate_native_identity.py
 ```
 
 Do not generate web or desktop runners.

@@ -44,7 +44,7 @@ class AppIdentity {
         'iosBundleIdentifier',
         'Must contain at least two dot-separated segments. Each segment must '
             'start with a letter or number and contain only letters, numbers, '
-            'or hyphens. Maximum length is 255 characters.',
+            'or hyphens.',
       );
     }
   }
@@ -54,7 +54,6 @@ class AppIdentity {
           .hasMatch(value);
 
   static bool isValidIosBundleIdentifier(String value) =>
-      value.length <= 255 &&
       RegExp(r'^[A-Za-z0-9][A-Za-z0-9-]*(\.[A-Za-z0-9][A-Za-z0-9-]*)+$')
           .hasMatch(value);
 }

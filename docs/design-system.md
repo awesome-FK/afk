@@ -54,3 +54,8 @@ Before a component is considered stable, cover:
 - Semantics labels/roles/state and focus behavior.
 - Reduced-motion behavior.
 - Android and iOS physical-device rendering.
+
+
+## Generated application ownership
+
+The AFK palette, typography, and `AfkTheme` form the design-system example shipped in this repository. A project created from the template owns the copied source and must define its own palette, typography, and theme before release. Reuse the component and token patterns as infrastructure; do not treat AFK's sample colors, font choices, or theme as mandatory product branding.

@@ -6,7 +6,7 @@ A polished, feature-first Flutter foundation for building consistent Android and
 
 AFK is intended to be distributed as a GitHub Template. Each generated application owns an independent repository, app identity, native identifiers, configuration, and release lifecycle. Generated applications do not depend on AFK at runtime. Stable shared capabilities may become separately versioned packages only when reuse justifies that boundary; changes to AFK never propagate automatically into generated applications.
 
-The application entry point must supply a validated `AppConfiguration`. It combines a typed `AppIdentity`, an `AppEnvironment`, and the application's own light/dark themes. Android `applicationId` and iOS `PRODUCT_BUNDLE_IDENTIFIER` must match the identifiers declared in that identity when native runners are generated. The AFK example configuration is explicit and is not a default inherited by generated products.
+The application entry point must supply a validated `AppConfiguration`. It combines a typed `AppIdentity`, an `AppEnvironment`, and the application's own light/dark themes. Android `applicationId` and iOS `PRODUCT_BUNDLE_IDENTIFIER` must match the identifiers declared in that identity when native runners are generated. The repository demo explicitly selects `exampleAppConfiguration` so this repository remains runnable. A project created from the GitHub Template receives this source as its own code; replace `exampleAppConfiguration` and `AfkTheme` with the generated app's identity and theme before shipping. There is no AFK runtime package dependency, and future changes to this repository do not propagate to generated apps.
 
 ## Product principles
 
@@ -27,13 +27,13 @@ Android and iOS only. Web and desktop are intentionally out of scope.
 
 - App bootstrap and Riverpod composition.
 - Provider-managed GoRouter lifecycle and localized route recovery.
-- AFK semantic color roles, typography, spacing, radius, and motion tokens.
+- The sample design-system implementation provides semantic color roles, typography, spacing, radius, and motion tokens; generated apps own and may replace these values.
 - Reusable button, surface, text-field, and segmented-control primitives.
 - English/Arabic localization and RTL startup coverage.
 - Persisted theme and locale preferences via the asynchronous SharedPreferences API.
 - GitHub Actions formatting, analysis, and widget-test workflow.
 
-Material UI is used as a framework dependency for platform integration, semantics, navigation shell, and input behavior. AFK components own the visible styling; do not use stock Material widgets as the product design language.
+Material UI is used as a framework dependency for platform integration, semantics, navigation shell, and input behavior. The included components demonstrate the intended styling boundary; generated apps own their final visual treatment and should not use stock Material widgets as their product design language.
 
 ## Quick start
 

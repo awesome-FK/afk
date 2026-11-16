@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 abstract final class AfkTypography {
   static TextTheme create({required Color primary, required Color secondary}) {

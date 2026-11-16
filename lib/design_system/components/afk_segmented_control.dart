@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../foundations/motion/afk_motion.dart';
 import '../foundations/radius/afk_radius.dart';

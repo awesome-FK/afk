@@ -1,7 +1,7 @@
 import 'package:afk/app/app.dart';
 import 'package:afk/design_system/components/afk_button.dart';
 import 'package:afk/design_system/theme/afk_theme.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 

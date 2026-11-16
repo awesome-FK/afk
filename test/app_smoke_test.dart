@@ -3,8 +3,9 @@ import 'package:afk/app/app_preferences.dart';
 import 'package:afk/localization/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'support/memory_app_preferences_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'support/memory_app_preferences_repository.dart';
 
 void main() {
   testWidgets('renders the AFK foundation in English by default', (

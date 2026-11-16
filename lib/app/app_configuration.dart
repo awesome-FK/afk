@@ -49,7 +49,8 @@ class AppIdentity {
     }
   }
 
-  static bool isValidAndroidApplicationId(String value) => RegExp(
+  static bool isValidAndroidApplicationId(String value) =>
+      RegExp(
     r'^[A-Za-z][A-Za-z0-9_]*(\.[A-Za-z][A-Za-z0-9_]*)+$',
   ).hasMatch(value);
 

@@ -11,7 +11,8 @@ void bootstrap({required AppConfiguration configuration}) {
   runApp(
     ProviderScope(
       overrides: [
-        appConfigurationProvider.overrideWithValue(configuration),
+        appConfigurationProvider
+            .overrideWithValue(configuration),
       ],
       child: const AppRoot(),
     ),

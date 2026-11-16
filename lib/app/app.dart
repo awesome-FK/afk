@@ -1,6 +1,6 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../design_system/theme/afk_theme.dart';
 import '../localization/app_localizations.dart';
@@ -12,8 +12,12 @@ class AfkApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ThemeMode themeMode = ref.watch(themeModeProvider);
-    final Locale locale = ref.watch(localeProvider);
+    final AppPreferences preferences = ref.watch(appPreferencesProvider).when(
+          data: (AppPreferences value) => value,
+          error: (Object error, StackTrace stackTrace) =>
+              const AppPreferences(),
+          loading: () => const AppPreferences(),
+        );
     final GoRouter router = ref.watch(appRouterProvider);
 
     return MaterialApp.router(
@@ -21,8 +25,8 @@ class AfkApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: AfkTheme.light(),
       darkTheme: AfkTheme.dark(),
-      themeMode: themeMode,
-      locale: locale,
+      themeMode: preferences.themeMode,
+      locale: preferences.locale,
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: <LocalizationsDelegate<dynamic>>[
         AppLocalizations.delegate,

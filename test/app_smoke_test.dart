@@ -1,13 +1,25 @@
 import 'package:afk/app/app.dart';
+import 'package:afk/app/app_preferences.dart';
 import 'package:afk/localization/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'support/memory_app_preferences_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('renders the AFK foundation in English by default', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const ProviderScope(child: AfkApp()));
+    final MemoryAppPreferencesRepository repository =
+        MemoryAppPreferencesRepository();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          appPreferencesRepositoryProvider.overrideWithValue(repository),
+        ],
+        child: const AfkApp(),
+      ),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('AFK'), findsOneWidget);

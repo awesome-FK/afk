@@ -19,12 +19,14 @@ class AfkSegmentedControl<T> extends StatelessWidget {
     required this.onChanged,
     super.key,
     this.expand = true,
+    this.enabled = true,
   });
 
   final T value;
   final List<AfkSegmentOption<T>> options;
   final ValueChanged<T> onChanged;
   final bool expand;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,9 @@ class AfkSegmentedControl<T> extends StatelessWidget {
           children: <Widget>[
             for (final AfkSegmentOption<T> option in options)
               if (expand)
-                Expanded(child: _segment(context, colors, option, reduceMotion))
+                Expanded(
+                  child: _segment(context, colors, option, reduceMotion),
+                )
               else
                 _segment(context, colors, option, reduceMotion),
           ],
@@ -61,6 +65,7 @@ class AfkSegmentedControl<T> extends StatelessWidget {
     final bool selected = option.value == value;
     return Semantics(
       button: true,
+      enabled: enabled,
       selected: selected,
       inMutuallyExclusiveGroup: true,
       child: AnimatedContainer(
@@ -71,7 +76,7 @@ class AfkSegmentedControl<T> extends StatelessWidget {
           borderRadius: BorderRadius.circular(AfkRadius.sm),
         ),
         child: InkWell(
-          onTap: selected ? null : () => onChanged(option.value),
+          onTap: !enabled || selected ? null : () => onChanged(option.value),
           borderRadius: BorderRadius.circular(AfkRadius.sm),
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -83,8 +88,12 @@ class AfkSegmentedControl<T> extends StatelessWidget {
                 option.label,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: selected ? colors.surface : colors.secondaryText,
-                ),
+                      color: !enabled
+                          ? colors.disabled
+                          : selected
+                              ? colors.surface
+                              : colors.secondaryText,
+                    ),
               ),
             ),
           ),
